@@ -44,8 +44,10 @@ The EzGas application offers to users the possibility to check the list of the p
 
 | Stakeholder name  | Description | 
 | ----------------- |:-----------:|
-| Administrator     |Uses the application to manage purchase and sharing of capsules in a small office (5-10 people)| 
-| Colleagues        |Do not use the application directly. They are interested in a correct accounting of capsule consumption and payments| 
+| Drivers  |Uses the application to look for gas station and their prices| 
+| Google Maps  |Does not use the application, supports API to embed map service| 
+|Gas Station| Can use the application to update its own prices, gets visibility from it|
+|Developers | Do not use the application, invested time and resources to develop it|
 
 # Context Diagram and interfaces
 
