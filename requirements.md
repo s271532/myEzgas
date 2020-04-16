@@ -44,9 +44,9 @@ The EzGas application offers to users the possibility to check the list of the p
 
 | Stakeholder name  | Description | 
 | ----------------- |:-----------:|
-| Drivers  |Uses the application to look for gas station and their prices| 
+| Drivers  |Use the application to look for gas station and their prices| 
 | Google Maps  |Does not use the application, supports API to embed map service| 
-|Gas Station| Can use the application to update its own prices, gets visibility from it|
+|Gas Station| Does not use the application, gets visibility from it|
 |Developers | Do not use the application, invested time and resources to develop it|
 
 # Context Diagram and interfaces
@@ -57,32 +57,27 @@ The EzGas application offers to users the possibility to check the list of the p
 left to right direction
 actor Driver as d
 actor "Google Maps" as g
-actor "Gas Station" as s
 d -- (EzGas)
 g -- (EzGas)
-(EzGas) -- s
 ```
 
 ## Interfaces
 | Actor | Logical Interface | Physical Interface  |
 | ------------- |:-------------:| -----:|
-|Driver|GUI |Touchscreen|
-|Gas Station|GUI|Touchscreen|
-|Google Maps| GMaps API| Internet connection|
+|Driver | GUI |Touchscreen |
+|Gas Station | GUI |Touchscreen |
+|Google Maps| GMaps API |Internet connection |
 
 
 # Stories and personas
-John works in the office and has an inclination for order and discipline. So he volunteers to keep track of what happens on the coffee machine. When a capsule of a certain type is close to sold out John reorders. Capsules can be purchased only in multiples of a minimum quantity (ex 40). On the money side, John computes how much each colleague should pay for what she has consumed. In practice every colleague has a virtual account, initially charged with a reasonable amount of cash given to John (ex 10 euros). John maintains this account and asks to recharge it when close to zero. Physically the money for capsules is in cash, and John manages it as if it where his personal money.
+Anna is a travelling salesman that has to drive her own car to work and between clients. Sometimes, in order to reach her clients, she needs to drive to nearby towns, and in general she has no set daily route. Since she is covering long distances every day, she is constantly in need of fuel for her car and she would like to purchase it at profitable rates. Most of the times she doesn't know where to find close gas stations and which of them is the most convenient, so she uses EzGas to look for them.
 
-All colleagues trust each other, so negative accounts are allowed. John uses his personal money if needed to reorder capsules. 
+It's Friday afternoon, and Anna has just closed a deal with a distant customer. She needs to reach another customer but her car is out of fuel, so she opens EzGas to check a map of close gas stations. She can touch on one gas station to see the prices and the date they were last updated. If she wants she can also input her next costumer address and look for gas stations in that area.
 
-John is happy to do this work, but would like to hand over to someone else after a certain amount of time. In any case when he is on vacation another colleague takes over temporarily.
+Mike is a student that has recently been gifted with a new car by his parents. Marco has also a part-time job and since he has to maintain the cost of the car and of his free time hobbies, he is on a low budget for fuel expenses.
+He drives almost every day to his job place and along the way he has different choices of gas station to refuel when in need. Before choosing a gas station between those, he opens EzGas to check the updated prices of his bookmarked gas stations to see which one is currently running the lowest prices.
 
-John would like to have a simple way to report (ex every one or two weeks) to each colleague all expenses and consumption for LaTazza. Without this report nobody has a clear idea of how much was the consumption.
-
-Mary works in the office and likes to share time with her colleagues in front of the coffee machine. On the side of the coffee machine is a tray with capsules. When she wants a coffee (or else) she takes a capsule from the tray and tells to John. To do so she uses a whatsapp group (LaTazza friends).
-
-Mr. Guest is a visitor in the office. As such he does not have the privilege of having an account. In case he can directly pay the capsule, cash, to John.
+It's Monday and Mike has spent his weekend out of town with his friends. He's running late for work and his car is out of fuel so he needs to reach as quickly as possible a gas station which is on his way to work. He decides to use EzGas, and since he is a registered user, he logs in to find his user defined list of favourites gas stations sorted by ascending prices. With a touch of his finger he has access to the quickest route to his gas station of choice, provided by Google Maps.
 
 # Functional and non functional requirements
 
