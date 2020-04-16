@@ -55,14 +55,20 @@ The EzGas application offers to users the possibility to check the list of the p
 
 ```plantuml
 left to right direction
-actor Administrator as a
-a -- (La Tazza)
+actor Driver as d
+actor "Google Maps" as g
+actor "Gas Station" as s
+d -- (EzGas)
+g -- (EzGas)
+(EzGas) -- s
 ```
 
 ## Interfaces
 | Actor | Logical Interface | Physical Interface  |
 | ------------- |:-------------:| -----:|
-|Administrator|GUI |Screen, keyboard|
+|Driver|GUI |Touchscreen|
+|Gas Station|GUI|Touchscreen|
+|Google Maps| GMaps API| Internet connection|
 
 
 # Stories and personas
