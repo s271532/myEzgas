@@ -189,7 +189,7 @@ Au --> UC52
 |  Precondition     | User account is present in the DB|  
 |  Post condition     | User is Authenticated|
 |  Nominal Scenario     |User U that has an account credentials can log in in the system to acces optional features  |
-|  Variants     | Wrong credentials, password forgotten |
+|  Variants     | Wrong Username or Password, password forgotten |
 
 ### Use case 3.1, UC3.1 - FR3.1 Authenticated User inserts new Gas Station
 
@@ -234,7 +234,7 @@ Au --> UC52
 | Scenario ID: SC1        | Corresponds to UC3.2  |
 | ------------- |:-------------| 
 | Description | Authenticated User inserts new prices for selected Gas Station |
-| Precondition | Gas Station G has aòready been defined in the DB and User is logged in |
+| Precondition | Gas Station G has already been defined in the DB and User is logged in |
 | Postcondition | Prices of G updated |
 | Step#        |  Step description   |
 |  1     | User search for G in the map |  
@@ -247,15 +247,51 @@ Au --> UC52
 # Glossary
 
 ```plantuml
+class Ezgas
+class User
+class "Authenticated User" as AU {
+	+ Email
+	+ Username
+	+ Password
+	+ Bookmarks
+}
+
+class "Gas Station" as G {
+	+name
+	+price of fuel
+}
+
+class "Map Position" as M {
+	+address
+	+latitude
+	+longitude
+}
+
+class "UpdatePrice" as Upd {
+	+newprice
+	+date
+	+rating
+}
+
+class "Create New GS" as CNG {
+	+name 
+}
+
+User "*"-up- Ezgas
+User <|-- AU
+Ezgas --"*" G
+G "1"--"1" M
+AU "1"-right-"*" Upd
+Upd "*"-right-"1" G
 
 ```
 
 # System Design
 
 ```plantuml
-class "Server"
+class "DB Server" as S
 
-Server -- "*"Smartphone
+S -- "*"Smartphone
 "Google Maps" -- "*" Smartphone
 Smartphone .. "*" Application
 ```
@@ -264,11 +300,11 @@ Smartphone .. "*" Application
 
 ```plantuml
 artifact "EZGas" as a
-node "Google Play store" as n
-node "iOS App store" as m
+node "Google Play store" as g
+node "iOS App store" as i
 node "Smartphone" as p
-a -- n
-a -- m
-m --p
-n -- p
+a -- g 
+a -- i
+g --p 
+i -- p
 ```
