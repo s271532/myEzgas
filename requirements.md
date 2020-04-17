@@ -36,7 +36,7 @@ Change history
 
 When drivers need to refuel their vehicles they usually tend to go to the nearest gas station, or to one that they could find along the way. This comes with a cost: accepting whatever rates the said gas station is currently offering, ignoring possible chances to save some money when there may be close gas stations that are running lower prices.
 
-The EzGas application offers to users the possibility to check the list of the prices of different gas stations, to compare them and to find close gas stations using a map with the possibility of consulting their prices. The list of gas stations is costantly updated by users, following a crowdsourcing approach. 
+The EzGas application offers to users the possibility to check the list of the prices of different gas stations, to compare them and to find close gas stations using a map. The list of gas stations is costantly updated by users, following a crowdsourcing approach. 
  
 
 
@@ -44,7 +44,7 @@ The EzGas application offers to users the possibility to check the list of the p
 
 | Stakeholder name  | Description | 
 | ----------------- |:-----------:|
-| Drivers  |Use the application to look for gas station and their prices| 
+| Users  |Use the application to look for gas station and their prices| 
 | Google Maps  |Does not use the application, supports API to embed map service| 
 |Gas Station| Does not use the application, gets visibility from it|
 |Developers | Do not use the application, invested time and resources to develop it|
@@ -55,10 +55,13 @@ The EzGas application offers to users the possibility to check the list of the p
 
 ```plantuml
 left to right direction
-actor Driver as d
+actor User as d
 actor "Google Maps" as g
-d -- (EzGas)
-g -- (EzGas)
+actor "Authenticated User" as a
+d - (EzGas)
+(EzGas) - g
+top to bottom direction
+d <|-- a
 ```
 
 ## Interfaces
@@ -66,7 +69,7 @@ g -- (EzGas)
 | ------------- |:-------------:| -----:|
 |Driver | GUI |Touchscreen |
 |Gas Station | GUI |Touchscreen |
-|Google Maps| GMaps API |Internet connection |
+|Google Maps| Google Maps API |Internet connection |
 
 
 # Stories and personas
@@ -83,26 +86,31 @@ It's Monday and Mike has spent his weekend out of town with his friends. He's ru
 
 ## Functional Requirements
 
-| ID        | Description  |
-| ------------- |:-------------:| 
-|  FR1     | Record that a colleague has used n capsules of a certain type, update his account |  
-|  FR2     | Record that a visitor has used n capsules of a certain type |
-|  FR3     | Record that a colleague has recharged x euros on her account |
-|  FR4     | Record that n capsules of a certain type have been received, and paid for |
-|  FR5     | Produce a report about consumption and recharges of a colleague over a certain period of time |
-|  FR6     | Produce a report about all consumption and recharges over a certain period of time |
-|  FR7     | Manage types of capsules and prices |
-|  FR8     | Manage colleagues and accounts |
+| ID     | Description  |
+| ------------- |:-------------:|  
+|**FR1** |**Select a gas station in the map to show prices**|
+|*FR1.1* |*Search the map for user's input address*		  |
+|*FR1.2* |*Retrieves best route to selected Gas Station*|
+|**FR2** |**Handles User Authentication** |
+|*FR2.1* |*Log in*							|
+|*FR2.2* |*Log out*							|
+|*FR2.3* |*User Registration*   			|
+|**FR3** |**Handles Update of the System**  |
+|*FR3.1* |*User inserts new Gas Station* 	|
+|*FR3.2* |*User inserts new prices for selected Gas Station*|
+|**FR4** |**Implements rating system for updates of gas station position and prices** |
+|**FR5** |**Handles User Preferences**|
+|*FR5.1* |*Show sorted list of bookmarked Gas Stations*|
+|*FR5.2* |*Add selected Gas Station to bookmarks*|
 
 ## Non Functional Requirements
 
-| ID        | Type (efficiency, reliability, .. see iso 9126)           | Description  | Refers to |
+| ID        | Type (efficiency, reliability, ... see iso 9126)           | Description  | Refers to |
 | ------------- |:-------------:| :-----:| -----:|
-|  NFR1     | Usability | Application should be used with no training by any colleague in the office  | All FR |
+|  NFR1     | Usability | Application should be used with no training by any user| All FR |
 |  NFR2     | Performance | All functions should complete in < 0.5 sec  | All FR |
-|  NFR3     | Portability | The application runs on MS Windows (7 and more recent)  | All FR |
-|  NFR4     | Portability | The application (functions and data) should be portable from a PC to another PC in less than 5 minutes | All FR |
-|  NFR5     | Localisation | Decimal numbers use . (dot) as decimal separator ||
+|  NFR3     | Portability | The Application should be multiplatform (Android, iOS) | All FR |
+
 
 
 # Use case diagram and use cases
@@ -111,13 +119,38 @@ It's Monday and Mike has spent his weekend out of town with his friends. He's ru
 
 ```plantuml
 left to right direction
-actor Administrator as a
-a -- (FR1  Record usage of capsules by colleague)
-a -- (FR2 Record usage of capsules by visitor)
-a -- (FR3 Record recharge of account of colleague)
-a -- (FR4 Record purchase of capsules)
-a -- (FR5 Produce report on consumption of colleague)
-a -- (FR6 Produce report on all consumptions)
+actor User as U
+actor "Authenticated User" as Au
+actor "Google Maps" as G
+U <|- Au
+(Select a Gas Station in the map\n) as UC1
+(Show prices of Gas Station\n**FR1**) as UC11
+(Retrieves best route to Gas Station\n**FR1.2**) as UC13
+(Search the map for user input address\n**FR1.1**) as UC12
+(Authenticate User\n**FR2**) as UC2
+(Log in\n**FR2.1**) as UC21
+(Log out\n**FR2.2**) as UC22
+(Update System\n**FR3**) as UC3
+(Insert new Gas Station\n**FR3.1**) as UC31
+(Updates prices of a Gas Station\n**FR3.2**) as UC32
+(View list of bookmarks\n**FR5.1**) as UC51
+(Add a Gas station to bookmarks\n**FR5.2**) as UC52
+U-->UC1
+UC1 ..> UC11 : <include>
+UC1 ..> UC13 : <include>
+UC13 --> G
+UC1 ..> UC12 : <include>
+Au --> UC2
+UC12 --> G
+UC2 ..> UC21 : <include>
+UC2 ..> UC22 : <include>
+Au --> UC3
+UC3 ..> UC31 : <include>
+UC3 ..> UC32 : <include>
+Au --> UC51
+Au --> UC52
+
+
 ```
 ## Use Cases
 
