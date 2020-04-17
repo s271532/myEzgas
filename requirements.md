@@ -96,8 +96,8 @@ It's Monday and Mike has spent his weekend out of town with his friends. He's ru
 |*FR2.2* |*Log out*							|
 |*FR2.3* |*User Registration*   			|
 |**FR3** |**Handles Update of the System**  |
-|*FR3.1* |*User inserts new Gas Station* 	|
-|*FR3.2* |*User inserts new prices for selected Gas Station*|
+|*FR3.1* |*Authenticated User inserts new Gas Station* 	|
+|*FR3.2* |*Authenticated User inserts new prices for selected Gas Station*|
 |**FR4** |**Implements rating system for updates of gas station position and prices** |
 |**FR5** |**Handles User Preferences**|
 |*FR5.1* |*Show sorted list of bookmarked Gas Stations*|
@@ -154,162 +154,121 @@ Au --> UC52
 ```
 ## Use Cases
 
-### Use case 1, UC1 - FR1  Record usage of capsules by colleague
+### Use case 1, UC1 - FR1 Select a Gas Station on the Map to show prices
 
-| Actors Involved        | Administrator |
+| Actors Involved        | User |
 | ------------- |:-------------:| 
-|  Precondition     | Capsule T exists, colleague C exists |  
-|  Post condition     | T.quantity_post < T.quantity_pre |
-| | C.PersonalAccount.balance_post < C.PersonalAccount.balance_pre |
-|  Nominal Scenario     | Administrator selects capsule type T, selects colleague C, Deduce quantity for capsule T, deduce price of T by account of colleague C|
-|  Variants     | Account of colleague C has not enough money, issue warning |
+|  Precondition     | Gas Station G exists in the DB, G.prices != null |  
+|  Post condition     | |
+|  Nominal Scenario     |  User opens map, selects a Gas Station G and he can see its prices|
+|  Variants     ||
 
-### Use case 2, UC2 - FR2 Record usage of capsules by visitor
+### Use case 1.1, UC1.1 - FR1.1 Search the map for user's input address
 
-| Actors Involved        | Administrator |
+| Actors Involved        | User |
 | ------------- |:-------------:| 
-|  Precondition     | Capsule T exists, visitor has no account |  
-|  Post condition     | T.quantity_post < T.quantity_pre |
-| | LaTazzaAccount.amount_post > LaTazzaAccount.amount_pre |
-|  Nominal Scenario     | Administrator selects capsule type T, Deduce quantity for capsule T, add price of T on LaTazzaAccount.amount|
+|  Precondition     |Input address is valid |  
+|  Post condition     | Map shows the address and nearby Gas Stations |
+|  Nominal Scenario     | User types the address A in the search bar of the map, map moves to address A  |
+|  Variants     ||
+
+### Use case 1.2, UC1.2 - FR1.2 Retrieves best route to selected Gas Station
+
+| Actors Involved        | User |
+| ------------- |:-------------:| 
+|  Precondition     | Gas Station G exists in the DB |  
+|  Post condition     | Map shows best route to G |
+|  Nominal Scenario     | User selects a Gas Station G and clicks on the gui button to retrieve indications|
+|  Variants     ||
+
+
+### Use case 2, UC2 - FR2 Authenticate User
+
+| Actors Involved        | Authenticated User |
+| ------------- |:-------------:| 
+|  Precondition     | User account is present in the DB|  
+|  Post condition     | User is Authenticated|
+|  Nominal Scenario     |User U that has an account credentials can log in in the system to acces optional features  |
+|  Variants     | Wrong credentials, password forgotten |
+
+### Use case 3.1, UC3.1 - FR3.1 Authenticated User inserts new Gas Station
+
+| Actors Involved        | Authenticated User |
+| ------------- |:-------------:| 
+|  Precondition     | User Account exists in the DB, User is logged in, Gas Station G is still not present in the DB |  
+|  Post condition     | G is inserted succesfully in the system |
+|  Nominal Scenario     |User sees a missing Gas Station in the map and decides to add it|
 |  Variants     |  |
 
-### Use case 3, UC3 - FR3 Record recharge of account of colleague
+### Use case 3.2, UC3.2 - FR3.2 Authenticated User inserts new prices for selected Gas Station
 
-| Actors Involved        | Administrator |
+| Actors Involved        | Authenticated User |
 | ------------- |:-------------:| 
-|  Precondition     | Personal Account PA exists , quantity >0 |  
-|  Post condition     | PA.balance_post = PA.balance_pre + quantity |
-|  | LaTazzaAccount.balance_post = LaTazzaAccount.balance_pre + quantity  |
-|  Nominal Scenario     | Administrator selects account PA of colleague C, increase account of  quantity, increase LaTazza account of quantity|
+|  Precondition     | User Account exists in the DB, User is logged in, Gas Station G is present in the DB |  
+|  Post condition     | G.prices_pre != G.prices_post |
+|  Nominal Scenario     |User notices that prices of the Gas Station G have changed and decides to update them|
 |  Variants     |  |
 
-### Use case 4, UC4 - FR4 Record purchase of capsules
+### Use case 5.1, FR5.1 View sorted list of Bookmarks
 
-| Actors Involved        | Administrator |
+| Actors Involved        | Authenticated User  |
 | ------------- |:-------------:| 
-|  Precondition     | Capsule type CT exists,  LaTazzaAccount.balance has enough money for the purchase|  
-|  Post condition     | CT.quantity_post > CT.quantity _pre |
-| | LaTazzaAccount.balance_post < LaTazzaAccount.balance_pre|
-|  Nominal Scenario     | At time of order Administrator records money spent for order. At time of reception administrator selects capsule type CT, increases its quantity by a given number|
-|  Variants     |  |
-
-### Use case 5, FR5 Produce report on consumption of colleague
-
-| Actors Involved        | Administrator  |
-| ------------- |:-------------:| 
-|  Precondition     | Colleague C exists |  
-|  Post condition     |  |
-|  Nominal Scenario     | Administrator selects colleague C, defines a time range,  application collects all transactions for C (recharges and capsules taken) in the time range and presents them|
+|  Precondition     | User is logged in, bookmark list is not empty |  
+|  Post condition     | A list of Gas Stations sorted by ascending orices is shown |
+|  Nominal Scenario     |User wants to consult the prices of his favourite Gas Stations|
 |  Variants     | |
 
-### Use case 6, FR6 Produce report on all consumptions
+### Use case 5.2, FR5.2 Add selected Gas Station to bookmarks
 
-| Actors Involved        | Administrator |
+| Actors Involved        | Authenticated User  |
 | ------------- |:-------------:| 
-|  Precondition     |  |  
-|  Post condition     |  |
-|  Nominal Scenario     | Administrator defines a time range,  application collects all transactions (recharges, purchases, and capsules taken) in the time range and presents them |
+|  Precondition     | User is logged in, Gas Station G exists on the DB |  
+|  Post condition     |Bookmarked Gas station count += 1|
+|  Nominal Scenario     |User selects a Gas Station G from the map and adds it to his bookmark list|
 |  Variants     | |
-
 
 # Relevant scenarios
 
 ## Scenario 1
 
-| Scenario ID: SC1        | Corresponds to UC1  |
+| Scenario ID: SC1        | Corresponds to UC3.2  |
 | ------------- |:-------------| 
-| Description | Colleague uses one capsule of type T|
-| Precondition |  account of C has enough money to buy capsule T|
-| Postcondition |  account of C updated, count of T updated |
+| Description | Authenticated User inserts new prices for selected Gas Station |
+| Precondition | Gas Station G has aòready been defined in the DB and User is logged in |
+| Postcondition | Prices of G updated |
 | Step#        |  Step description   |
-|  1     | Administrator selects capsule type T |  
-|  2     |  Administrator selects colleague C |
-|  3     | Deduce one for quantity of capsule T |
-| 4 | Deduce price of T from account of C|
-
-## Scenario 2
-
-| Scenario ID: SC2        | Corresponds to UC1  |
-| ------------- |:-------------| 
-| Description | Colleague uses one capsule of type T, account negative|
-|Precondition |  account of C has not enough money to buy capsule T|
-|Postcondition |  account of C updated, count of T updated |
-| Step#        | Step description  |
-|  1     | Administrator selects capsule type T |  
-|  2     | Administrator selects colleague C |
-|  3     | Deduce one for quantity of capsule T  |
-|  4     | Deduce price of T from account of C  |
-|  5     | Account of C is negative, issue warning  |
+|  1     | User search for G in the map |  
+|  2     | User clicks on G  |
+|  3     | User clicks on "Update prices" button |
+| 4 | User types new prices |
+|5  | User confirms changes|
 
 
 # Glossary
 
 ```plantuml
-class LaTazza
-class Colleague {
-+ name
-+ surname
-}
-
-class PersonalAccount {
-+ balance
-}
-
-class CapsuleType {
-+ name
-+ price
-+ quantity
-}
-
-class LaTazzaAccount {
-+ balance
-}
-
-class BoxPurchase {
-+ quantity
-}
-
-class Transaction {
-+ date
-+ amount
-}
-
-class Recharge
-class Consumption
-
-
-LaTazza -- "*" Colleague
-LaTazza -- "*" CapsuleType
-LaTazza -- LaTazzaAccount
-
-LaTazzaAccount -- "*" BoxPurchase
-LaTazzaAccount -- "*" Consumption
-
-CapsuleType -- "*" Consumption
-CapsuleType -- "*" BoxPurchase
-
-Colleague -- PersonalAccount
-PersonalAccount -- "*" Transaction
-
-Transaction <|-- Recharge
-Transaction <|-- Consumption
-Transaction <|-- BoxPurchase
 
 ```
 
 # System Design
-Not really meaningful in this case. Only one personal computer is needed.
 
 ```plantuml
-class "Personal Computer"
+class "Server"
+
+Server -- "*"Smartphone
+"Google Maps" -- "*" Smartphone
+Smartphone .. "*" Application
 ```
 
 # Deployment Diagram
-As a stand-alone application only one node is needed.
 
 ```plantuml
-artifact "La Tazza Application" as a
-node "Personal Computer" as n
+artifact "EZGas" as a
+node "Google Play store" as n
+node "iOS App store" as m
+node "Smartphone" as p
 a -- n
+a -- m
+m --p
+n -- p
 ```
