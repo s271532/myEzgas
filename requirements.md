@@ -109,7 +109,7 @@ It's Monday and Mike has spent his weekend out of town with his friends. He's ru
 | ------------- |:-------------:| :-----:| -----:|
 |  NFR1     | Usability | Application should be used with no training by any user| All FR |
 |  NFR2     | Performance | All functions should complete in < 0.5 sec  | All FR |
-|  NFR3     | Portability | The Application should be multiplatform (Android, iOS) | All FR |
+|  NFR3     | Portability | The Application should be supported by web(accsesible by smartphone or PC) | All FR |
 
 
 
